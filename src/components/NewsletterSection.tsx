@@ -13,10 +13,7 @@ export default function NewsletterSection() {
   };
 
   return (
-    <section
-      className="py-16 px-6"
-      style={{ backgroundColor: '#507EEF' }}
-    >
+    <section className="py-16 px-6" style={{ backgroundColor: '#507EEF' }}>
       <div className="max-w-[1290px] mx-auto flex flex-col md:flex-row gap-12 items-start">
         {/* Left - Header */}
         <div className="md:w-1/3">
@@ -30,14 +27,18 @@ export default function NewsletterSection() {
             className="text-white text-base leading-relaxed"
             style={{ fontFamily: 'Graphik Regular, sans-serif' }}
           >
-            Subscribe to our MailChimp database for all of our company news &amp; new product updates.
+            Subscribe to our MailChimp database for all of our company news &amp; new product
+            updates.
           </p>
         </div>
 
         {/* Right - Form */}
         <div className="md:w-2/3">
           {submitted ? (
-            <div className="text-white text-lg" style={{ fontFamily: 'Graphik Medium, sans-serif' }}>
+            <div
+              className="text-white text-lg"
+              style={{ fontFamily: 'Graphik Medium, sans-serif' }}
+            >
               Thank you for subscribing!
             </div>
           ) : (
@@ -53,7 +54,12 @@ export default function NewsletterSection() {
                     className="w-full px-4 py-3 bg-white/20 border border-white/40 text-white placeholder-white/70 rounded focus:outline-none focus:border-white"
                     style={{ fontFamily: 'Graphik Regular, sans-serif' }}
                   />
-                  <label className="text-white/70 text-xs mt-1 block" style={{ fontFamily: 'Graphik Regular, sans-serif' }}>First</label>
+                  <label
+                    className="text-white/70 text-xs mt-1 block"
+                    style={{ fontFamily: 'Graphik Regular, sans-serif' }}
+                  >
+                    First
+                  </label>
                 </div>
                 <div className="flex-1">
                   <input
@@ -65,7 +71,12 @@ export default function NewsletterSection() {
                     className="w-full px-4 py-3 bg-white/20 border border-white/40 text-white placeholder-white/70 rounded focus:outline-none focus:border-white"
                     style={{ fontFamily: 'Graphik Regular, sans-serif' }}
                   />
-                  <label className="text-white/70 text-xs mt-1 block" style={{ fontFamily: 'Graphik Regular, sans-serif' }}>Last</label>
+                  <label
+                    className="text-white/70 text-xs mt-1 block"
+                    style={{ fontFamily: 'Graphik Regular, sans-serif' }}
+                  >
+                    Last
+                  </label>
                 </div>
               </div>
               <div>
