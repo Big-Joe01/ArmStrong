@@ -56,20 +56,44 @@ final class OrderService
         $expiresAt       = date('Y-m-d H:i:s', strtotime('+' . $reservationDays . ' days'));
 
         return Database::transaction(function () use ($payload, $items, $fulfilment, $deliveryFee, $rateId, $timeframe, $expiresAt, $ip): array {
+            // Lock the ordered products first, in a stable order, so that
+            // availability is checked against the latest committed stock and a
+            // concurrent buyer cannot oversell. Line items are then built from
+            // the locked rows — no earlier non-locking read, which would trip
+            // MariaDB error 1020 under REPEATABLE READ.
+            $productIds = [];
+            foreach ($items as $item) {
+                $pid = (int) ($item['product_id'] ?? 0);
+                if ($pid > 0) {
+                    $productIds[$pid] = true;
+                }
+            }
+            $productIds = array_keys($productIds);
+            sort($productIds);
+
+            $locked = [];
+            foreach ($productIds as $pid) {
+                $row = InventoryService::lockProduct($pid);
+                if ($row === null) {
+                    throw new \RuntimeException('A product in your order is no longer available.');
+                }
+                $locked[$pid] = $row;
+            }
+
             // --- Customer record (guest; deduplicated by phone) ---
             $customerId = self::upsertCustomer($payload);
 
-            // --- Build line items from live product data ---
             $subtotal = 0.00;
             $lines    = [];
+            $needed   = [];
             foreach ($items as $item) {
                 $productId = (int) ($item['product_id'] ?? 0);
                 $quantity  = (int) ($item['quantity'] ?? 0);
-                if ($productId <= 0 || $quantity <= 0) {
+                if ($productId <= 0 || $quantity <= 0 || !isset($locked[$productId])) {
                     continue;
                 }
-                $product = Database::first('SELECT * FROM products WHERE id = ?', [$productId]);
-                if ($product === null || (int) $product['is_published'] !== 1) {
+                $product = $locked[$productId];
+                if ((int) $product['is_published'] !== 1) {
                     throw new \RuntimeException('A product in your order is no longer available.');
                 }
                 if ($product['availability'] !== 'available') {
@@ -88,9 +112,20 @@ final class OrderService
                     'line_total'       => $lineTotal,
                     'selected_options' => $item['options'] ?? null,
                 ];
+                $needed[$productId] = ($needed[$productId] ?? 0) + $quantity;
             }
             if ($lines === []) {
                 throw new \RuntimeException('Your order is empty.');
+            }
+            foreach ($needed as $pid => $qty) {
+                $available = InventoryService::available($locked[$pid]);
+                if ($available < $qty) {
+                    throw new \RuntimeException(sprintf(
+                        'Only %d unit(s) of "%s" are available.',
+                        max(0, $available),
+                        (string) $locked[$pid]['name']
+                    ));
+                }
             }
 
             $subtotal = round($subtotal, 2);
@@ -241,6 +276,31 @@ final class OrderService
         }
 
         return ['orders' => $orders, 'reservations' => $releasedTotal];
+    }
+
+    /**
+     * Complete an order: convert its active reservations into a sale so the
+     * physical stock leaves inventory, and close the reservations. Idempotent —
+     * a second call (or a status change already applied) fulfils nothing.
+     */
+    public static function complete(int $orderId, string $reason = 'Order completed', ?int $adminId = null): bool
+    {
+        return (bool) Database::transaction(function () use ($orderId, $reason, $adminId): bool {
+            $order = Database::first('SELECT * FROM orders WHERE id = ? FOR UPDATE', [$orderId]);
+            if ($order === null) {
+                return false;
+            }
+            if (in_array($order['status'], ['cancelled', 'expired'], true)) {
+                return false;
+            }
+            if ((int) $order['stock_released'] === 1) {
+                return false; // Already released/cancelled; nothing to deduct.
+            }
+
+            InventoryService::fulfilOrderReservations($orderId, $reason);
+            Database::update('orders', ['stock_released' => 1], ['id' => $orderId]);
+            return true;
+        });
     }
 
     public static function cancel(int $orderId, string $reason, ?int $adminId = null): bool

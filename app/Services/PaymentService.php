@@ -29,7 +29,7 @@ final class PaymentService
             return ['ok' => false, 'message' => 'Payment amount must be greater than zero.'];
         }
 
-        return (bool) Database::transaction(function () use ($orderId, $amount, $method, $reference, $paidAt, $note, $adminId): array {
+        return Database::transaction(function () use ($orderId, $amount, $method, $reference, $paidAt, $note, $adminId): array {
             $order = Database::first('SELECT * FROM orders WHERE id = ? FOR UPDATE', [$orderId]);
             if ($order === null) {
                 return ['ok' => false, 'message' => 'Order not found.'];
