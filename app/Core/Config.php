@@ -60,7 +60,44 @@ final class Config
 
     public static function baseUrl(string $path = ''): string
     {
-        $base = rtrim((string) self::get('base_url', ''), '/');
+        $base = rtrim(self::detectBaseUrl(), '/');
         return $path === '' ? $base : $base . '/' . ltrim($path, '/');
+    }
+
+    /**
+     * Resolve the site's base URL. A configured base_url wins; when it is blank
+     * the URL is derived from the incoming request so the app also works behind
+     * a proxy or on a host whose domain is not known at configuration time.
+     */
+    private static function detectBaseUrl(): string
+    {
+        $configured = trim((string) self::get('base_url', ''));
+        if ($configured !== '' && $configured !== 'auto') {
+            return $configured;
+        }
+
+        if (PHP_SAPI === 'cli' || empty($_SERVER['HTTP_HOST'])) {
+            return $configured === 'auto' ? '' : $configured;
+        }
+
+        $https = ($_SERVER['HTTPS'] ?? '') !== '' && ($_SERVER['HTTPS'] ?? '') !== 'off';
+        if (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https') {
+            $https = true;
+        }
+        $scheme = $https ? 'https' : 'http';
+
+        $host = (string) $_SERVER['HTTP_HOST'];
+        $script = (string) ($_SERVER['SCRIPT_NAME'] ?? '');
+        $dir = rtrim(str_replace('\\', '/', dirname($script)), '/');
+        $dir = $dir === '.' ? '' : $dir;
+
+        // The admin area lives in its own sub-directory and its routes already
+        // include that prefix (url('invent/...')), so strip it from the base.
+        $adminPath = '/' . trim((string) self::get('admin_path', 'invent'), '/');
+        if ($adminPath !== '/' && $dir === $adminPath) {
+            $dir = '';
+        }
+
+        return $scheme . '://' . $host . $dir;
     }
 }
