@@ -1,0 +1,103 @@
+# =============================================================================
+#  Armstrong Homes & Interior Limited - Apache configuration
+# =============================================================================
+
+# --- Default index -----------------------------------------------------------
+DirectoryIndex index.php index.html
+
+# --- Disable directory listing ----------------------------------------------
+Options -Indexes
+
+# --- Character set -----------------------------------------------------------
+AddDefaultCharset UTF-8
+
+# -----------------------------------------------------------------------------
+#  Front controller routing
+#  Pretty URLs: everything that is not an existing file/directory goes to
+#  index.php. The /invent admin area is served by its own index.php.
+# -----------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Detect HTTPS (supports reverse proxies / shared hosting)
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    # Uncomment the next two lines in production to force HTTPS:
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Block direct access to sensitive directories
+    RewriteRule ^(app|config|database|cron|storage|docs|vendor)(/|$) - [F,L]
+
+    # Serve the admin front controller
+    RewriteRule ^invent/?$ invent/index.php [L]
+    RewriteRule ^invent/(.*)$ invent/index.php [L]
+
+    # Serve real files and directories directly
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Everything else -> public front controller
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# -----------------------------------------------------------------------------
+#  Security headers
+# -----------------------------------------------------------------------------
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    # Enable HSTS only when the site is served over HTTPS:
+    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# -----------------------------------------------------------------------------
+#  Block access to sensitive file types
+# -----------------------------------------------------------------------------
+<FilesMatch "\.(sql|log|ini|md|json|lock|yml|yaml|dist|example\.php|sh|bak|old|env)$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "^(composer\.(json|lock)|package(-lock)?\.json|\.env.*|\.gitignore)$">
+    Require all denied
+</FilesMatch>
+
+# Protect config and storage even if rewriting is unavailable
+RedirectMatch 404 ^/(app|config|database|cron|storage|docs)/
+
+# -----------------------------------------------------------------------------
+#  Upload limits
+# -----------------------------------------------------------------------------
+<IfModule mod_php.c>
+    php_value upload_max_filesize 6M
+    php_value post_max_size 12M
+</IfModule>
+
+# -----------------------------------------------------------------------------
+#  Static asset caching
+# -----------------------------------------------------------------------------
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css            "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/jpeg          "access plus 6 months"
+    ExpiresByType image/png           "access plus 6 months"
+    ExpiresByType image/webp          "access plus 6 months"
+    ExpiresByType image/svg+xml       "access plus 6 months"
+    ExpiresByType image/x-icon        "access plus 6 months"
+    ExpiresByType font/woff2          "access plus 6 months"
+</IfModule>
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+    AddOutputFilterByType DEFLATE application/javascript application/json
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# -----------------------------------------------------------------------------
+#  Custom error documents
+# -----------------------------------------------------------------------------
+ErrorDocument 404 /index.php
+ErrorDocument 403 /index.php

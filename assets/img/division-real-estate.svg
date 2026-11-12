@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" role="img" aria-label="Real estate">
+  <rect width="800" height="500" fill="#143A5C"/>
+  <g fill="#1F4E79">
+    <rect x="80" y="230" width="140" height="190"/>
+    <rect x="240" y="160" width="160" height="260"/>
+    <rect x="420" y="200" width="130" height="220"/>
+    <rect x="570" y="120" width="150" height="300"/>
+  </g>
+  <g fill="#C9A227" opacity="0.9">
+    <rect x="262" y="185" width="24" height="24"/><rect x="302" y="185" width="24" height="24"/><rect x="342" y="185" width="24" height="24"/>
+    <rect x="262" y="230" width="24" height="24"/><rect x="302" y="230" width="24" height="24"/><rect x="342" y="230" width="24" height="24"/>
+    <rect x="262" y="275" width="24" height="24"/><rect x="302" y="275" width="24" height="24"/><rect x="342" y="275" width="24" height="24"/>
+    <rect x="592" y="145" width="24" height="24"/><rect x="632" y="145" width="24" height="24"/><rect x="672" y="145" width="24" height="24"/>
+    <rect x="592" y="190" width="24" height="24"/><rect x="632" y="190" width="24" height="24"/><rect x="672" y="190" width="24" height="24"/>
+    <rect x="100" y="255" width="22" height="22"/><rect x="140" y="255" width="22" height="22"/><rect x="180" y="255" width="22" height="22"/>
+    <rect x="440" y="225" width="22" height="22"/><rect x="480" y="225" width="22" height="22"/>
+  </g>
+  <rect y="420" width="800" height="80" fill="#101820"/>
+  <text x="400" y="472" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="26" fill="#C9A227" letter-spacing="4">REAL ESTATE</text>
+</svg>
