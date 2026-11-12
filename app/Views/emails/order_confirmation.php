@@ -11,7 +11,7 @@ use App\Core\Settings;
 $company = Settings::get('company_name', 'Armstrong Homes & Interior Limited');
 ?>
 <div style="font-family:Arial,Helvetica,sans-serif;color:#1B2430;line-height:1.6;max-width:600px;margin:0 auto">
-    <div style="background:#1F4E79;color:#fff;padding:20px 24px">
+    <div style="background:#507EEF;color:#fff;padding:20px 24px">
         <h1 style="margin:0;font-size:20px"><?= e($company) ?></h1>
         <div style="font-size:12px;color:#C9D4E1;letter-spacing:.08em;text-transform:uppercase">Order confirmation</div>
     </div>

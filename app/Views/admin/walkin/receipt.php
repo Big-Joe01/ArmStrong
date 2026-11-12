@@ -19,8 +19,8 @@ $company = Settings::get('company_name', 'Armstrong Homes & Interior Limited');
     <style>
         body { font-family: Arial, Helvetica, sans-serif; color: #1B2430; margin: 0; padding: 32px; font-size: 14px; }
         .wrap { max-width: 680px; margin: 0 auto; }
-        .head { display: flex; justify-content: space-between; border-bottom: 2px solid #1F4E79; padding-bottom: 16px; margin-bottom: 24px; }
-        .head h1 { margin: 0; font-size: 20px; color: #1F4E79; }
+        .head { display: flex; justify-content: space-between; border-bottom: 2px solid #507EEF; padding-bottom: 16px; margin-bottom: 24px; }
+        .head h1 { margin: 0; font-size: 20px; color: #507EEF; }
         .muted { color: #5B6879; font-size: 12px; }
         table { width: 100%; border-collapse: collapse; margin: 16px 0; }
         th { text-align: left; border-bottom: 1px solid #DDE3EA; padding: 8px 0; font-size: 12px; text-transform: uppercase; color: #5B6879; }
@@ -29,7 +29,7 @@ $company = Settings::get('company_name', 'Armstrong Homes & Interior Limited');
         .totals td { border: 0; padding: 4px 0; }
         .totals .grand { border-top: 1px solid #DDE3EA; font-weight: bold; padding-top: 8px; }
         .actions { margin-top: 24px; text-align: center; }
-        .actions button { padding: 10px 20px; background: #1F4E79; color: #fff; border: 0; border-radius: 6px; cursor: pointer; }
+        .actions button { padding: 10px 20px; background: #507EEF; color: #fff; border: 0; border-radius: 6px; cursor: pointer; }
         @media print { .actions { display: none; } body { padding: 0; } }
     </style>
 </head>

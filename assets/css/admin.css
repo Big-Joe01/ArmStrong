@@ -112,6 +112,6 @@
     .form-grid .span-2 { grid-column: span 1; }
     .admin-content { padding: var(--sp-4); }
     .admin-topbar { padding: var(--sp-3) var(--sp-4); }
-    .admin-backdrop { position: fixed; inset: 0; background: rgba(16,24,32,0.5); z-index: 65; display: none; }
+    .admin-backdrop { position: fixed; inset: 0; background: rgba(30,27,28,0.5); z-index: 65; display: none; }
     .admin-backdrop.is-open { display: block; }
 }

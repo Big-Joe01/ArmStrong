@@ -9,7 +9,7 @@
 use App\Core\Settings;
 ?>
 <div style="font-family:Arial,Helvetica,sans-serif;color:#1B2430;line-height:1.6;max-width:600px;margin:0 auto">
-    <div style="background:#101820;color:#fff;padding:16px 24px">
+    <div style="background:#1E1B1C;color:#fff;padding:16px 24px">
         <h1 style="margin:0;font-size:18px"><?= e($heading) ?></h1>
     </div>
     <div style="padding:24px">

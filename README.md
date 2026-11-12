@@ -108,6 +108,30 @@ index.php          Public front controller
 
 ---
 
+## Design system
+
+The visual identity carries over the brand palette from the original Armstrong
+project, rebuilt as plain CSS in `assets/css/app.css` (no Tailwind, no build
+step).
+
+| Token | Value | Use |
+|-------|-------|-----|
+| `--brand-primary` | `#507EEF` | Primary blue — buttons, links, active states |
+| `--brand-primary-dark` | `#1E1B1C` | Near-black — hovers, dark surfaces |
+| `--brand-accent` | `#F2CE2C` | Gold accent — highlights, hero stats |
+| `--brand-ink` | `#1E1B1C` | Header bar, footer, admin sidebar |
+| `--c-bg-alt` | `#EDEDED` | Light grey section backgrounds |
+
+Typography is a Graphik-style neutral grotesque; the closest freely available
+match, **Inter**, is loaded from Google Fonts with a system-font fallback.
+Headings use the same family at a light weight, matching the original site.
+Buttons and CTAs are pill-shaped with uppercase tracking.
+
+To use a licensed Graphik webfont instead, add `@font-face` rules in
+`assets/css/app.css` and put `"Graphik"` first in `--font-sans`.
+
+---
+
 ## Key features
 
 **Public website**

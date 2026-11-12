@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Image placeholder">
-  <rect width="800" height="600" fill="#EEF1F5"/>
-  <g fill="none" stroke="#C3CCD8" stroke-width="2">
+  <rect width="800" height="600" fill="#EDEDED"/>
+  <g fill="none" stroke="#CBD5E0" stroke-width="2">
     <path d="M250 400l110-120 90 95 70-70 130 135z"/>
     <circle cx="330" cy="215" r="34"/>
   </g>
