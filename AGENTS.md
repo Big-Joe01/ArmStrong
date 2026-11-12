@@ -35,6 +35,9 @@ php scripts/install.php --admin-user=admin --admin-pass='<pw>' --seed-demo
 php -S 0.0.0.0:12000 scripts/dev-router.php   # dev-router emulates .htaccess
 ```
 
+Or just `bash scripts/demo-start.sh` to (re)start MariaDB + the dev server
+together; it is idempotent and safe to run repeatedly.
+
 `config/config.php` may set `'base_url' => 'auto'`; the base URL is then derived
 from the request (works behind a proxy / in a sub-directory). A concrete URL in
 `base_url` always wins.
