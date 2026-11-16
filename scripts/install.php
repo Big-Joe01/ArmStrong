@@ -72,10 +72,16 @@ if ($schema === false) {
 }
 
 $pdo = Database::connection();
-foreach (array_filter(array_map('trim', explode(";\n", $schema))) as $statement) {
-    if ($statement === '' || str_starts_with($statement, '--')) {
+
+$statements = preg_split('/;\s*(?:\r?\n|$)/', $schema);
+
+foreach ($statements as $statement) {
+    $statement = trim($statement);
+
+    if ($statement === '' || preg_match('/^(?:\s*--.*(?:\r?\n|$)\s*)*$/', $statement)) {
         continue;
     }
+
     try {
         $pdo->exec($statement);
     } catch (PDOException $e) {
