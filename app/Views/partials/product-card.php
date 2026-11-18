@@ -10,7 +10,7 @@ use App\Services\MediaService;
 $available = ((int) $product['stock_on_hand'] - (int) $product['reserved_qty']);
 $unavailable = $product['availability'] !== 'available';
 ?>
-<article class="card card-hover">
+<article class="card card-hover product-card">
     <a href="<?= e(url('/products/' . $product['slug'])) ?>" class="card-media">
         <?php if ($product['is_featured']): ?>
             <span class="badge badge-overlay">Featured</span>

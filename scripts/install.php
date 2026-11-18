@@ -179,9 +179,9 @@ out("-> {$inserted} default settings created.");
 
 // --- 5. Content sections ---------------------------------------------------
 $sections = [
-    ['home_hero', 'home', 'Building materials, interior products and property - from one trusted supplier.',
-        'Armstrong Homes & Interior Limited serves customers across Nigeria with dependable building materials, interior products and real estate solutions.',
-        '', 'Explore Real Estate', '/real-estate', 1],
+    ['home_hero', 'home', 'Building materials and interior products, supplied with confidence.',
+        'Tiles, sanitary ware, doors, lighting, finishes and more — ordered online with store collection or delivery across Nigeria.',
+        '', 'Shop Building Materials', '/building-materials', 1],
     ['home_about', 'home', 'A Nigerian supplier you can rely on', '', '', '', '', 2],
     ['promo_banner', 'home', '', '', '', '', '', 3],
     ['about_story', 'about', 'Our story', '', '', '', '', 1],

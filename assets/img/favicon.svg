@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" rx="10" fill="#507EEF"/>
-  <text x="32" y="45" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="38" font-weight="700" fill="#ffffff">A</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Armstrong">
+  <circle cx="60" cy="60" r="58" fill="#507EEF"/>
+  <path d="M60 26 88 94 H74 L68 78 H52 L46 94 H32 Z M57 42 50 66 h14 z"
+        fill="#FFFFFF" fill-rule="evenodd"/>
 </svg>

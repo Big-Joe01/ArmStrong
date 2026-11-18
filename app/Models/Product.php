@@ -129,6 +129,26 @@ final class Product
         );
     }
 
+    /**
+     * Latest published products for the storefront (newest first).
+     *
+     * @return list<array<string,mixed>>
+     */
+    public static function latest(int $limit = 8): array
+    {
+        $limit = max(1, min(48, $limit));
+        return Database::all(
+            "SELECT p.*, c.name AS category_name, c.slug AS category_slug, b.name AS brand_name,
+                    (SELECT image_url FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.is_main DESC, pi.sort_order ASC LIMIT 1) AS main_image
+             FROM products p
+             LEFT JOIN product_categories c ON c.id = p.category_id
+             LEFT JOIN brands b ON b.id = p.brand_id
+             WHERE p.is_published = 1
+             ORDER BY p.is_featured DESC, p.created_at DESC
+             LIMIT $limit"
+        );
+    }
+
     /** @return list<array<string,mixed>> */
     public static function related(int $productId, ?int $categoryId, int $limit = 4): array
     {

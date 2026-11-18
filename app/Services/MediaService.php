@@ -171,16 +171,26 @@ final class MediaService
     /** Best-effort URL for a product's main image (falls back to a placeholder). */
     public static function productImageUrl(?string $url, int $width = 600): string
     {
-        if ($url === null || $url === '') {
-            return Config::baseUrl('assets/img/placeholder.svg');
-        }
-        return Cloudinary::optimized($url, $width);
+        return self::resolve($url, $width);
     }
 
     public static function propertyImageUrl(?string $url, int $width = 900): string
     {
+        return self::resolve($url, $width);
+    }
+
+    /**
+     * Resolve a stored image reference to a browser-ready URL.
+     * Cloudinary URLs are width-optimised; local relative paths (e.g. bundled
+     * demo artwork) are prefixed with the base URL so they work from any route.
+     */
+    private static function resolve(?string $url, int $width): string
+    {
         if ($url === null || $url === '') {
             return Config::baseUrl('assets/img/placeholder.svg');
+        }
+        if (!preg_match('#^https?://#i', $url)) {
+            return Config::baseUrl(ltrim($url, '/'));
         }
         return Cloudinary::optimized($url, $width);
     }

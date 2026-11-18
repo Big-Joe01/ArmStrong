@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Armstrong">
+  <circle cx="60" cy="60" r="54" fill="none" stroke="#1E1B1C" stroke-width="7"/>
+  <path d="M60 26 88 94 H74 L68 78 H52 L46 94 H32 Z M57 42 50 66 h14 z"
+        fill="#1E1B1C" fill-rule="evenodd"/>
+</svg>

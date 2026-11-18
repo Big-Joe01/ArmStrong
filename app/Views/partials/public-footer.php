@@ -22,7 +22,7 @@ $socials = [
         <div class="footer-grid">
             <div class="footer-brand">
                 <span class="brand" style="margin-bottom:var(--sp-4)">
-                    <span class="brand-mark" aria-hidden="true">A</span>
+                    <img class="brand-logo" src="<?= e(asset('img/logo-mark-light.svg')) ?>" alt="" width="46" height="46">
                     <span class="brand-text">
                         <span class="brand-name">Armstrong</span>
                         <span class="brand-sub">Homes &amp; Interior</span>

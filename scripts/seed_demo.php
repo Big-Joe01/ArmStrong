@@ -95,6 +95,22 @@ function seed_demo(): void
             ['Diameter' => '4 in', 'Length' => '3 m'], [], []],
     ];
 
+    // Demo artwork so the storefront is not empty on a fresh install.
+    $demoImages = [
+        '60 x 60 cm Porcelain Floor Tile' => 'tile-porcelain-floor',
+        '30 x 60 cm Ceramic Wall Tile'    => 'tile-ceramic-wall',
+        'Close-Coupled Water Closet'      => 'wc-close-coupled',
+        'Wall-Hung Wash Basin'            => 'basin-wall-hung',
+        'Rain Shower Set'                 => 'shower-rain-set',
+        'Kitchen Sink (Double Bowl)'      => 'kitchen-sink-double',
+        'Flush Panel Door'                => 'door-flush-panel',
+        'Aluminium Sliding Window'        => 'window-aluminium-sliding',
+        'LED Panel Ceiling Light'         => 'light-led-panel',
+        'PVC Ceiling Panel'               => 'ceiling-pvc-panel',
+        'Emulsion Paint (20 L)'           => 'paint-emulsion',
+        'PVC Pipe (4 in)'                 => 'pipe-pvc',
+    ];
+
     foreach ($products as [$name, $category, $brand, $price, $unit, $stock, $specs, $colors, $sizes]) {
         $slug = Str::slug($name);
         if (Database::first('SELECT id FROM products WHERE slug = ?', [$slug])) {
@@ -120,6 +136,16 @@ function seed_demo(): void
             'published_at'      => date('Y-m-d H:i:s'),
         ]);
         InventoryService::initialStock($productId, $stock, null, 'Demo opening stock');
+
+        if (isset($demoImages[$name])) {
+            Database::insert('product_images', [
+                'product_id' => $productId,
+                'image_url'  => 'assets/img/demo/' . $demoImages[$name] . '.svg',
+                'alt_text'   => $name,
+                'is_main'    => 1,
+                'sort_order' => 0,
+            ]);
+        }
     }
 
     // --- Property categories ----------------------------------------------

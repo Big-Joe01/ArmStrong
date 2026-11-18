@@ -9,6 +9,7 @@ use App\Core\Response;
 use App\Core\Settings;
 use App\Models\Product;
 use App\Models\Property;
+use App\Services\MediaService;
 
 /**
  * Homepage and static content pages.
@@ -23,9 +24,14 @@ final class HomeController extends Controller
 
         $featuredProperties = Property::featured(6);
         $featuredProducts   = Product::featured(8);
+        $latestProducts     = Product::latest(8);
         $categories         = Database::all(
             "SELECT c.*, (SELECT COUNT(*) FROM products p WHERE p.category_id = c.id AND p.is_published = 1) AS product_count
              FROM product_categories c WHERE c.is_active = 1 ORDER BY c.sort_order ASC, c.name ASC LIMIT 8"
+        );
+        $brands = Database::all(
+            "SELECT b.*, (SELECT COUNT(*) FROM products p WHERE p.brand_id = b.id AND p.is_published = 1) AS product_count
+             FROM brands b WHERE b.is_active = 1 ORDER BY b.name ASC LIMIT 10"
         );
         $reviews = Database::all(
             "SELECT r.*, p.name AS product_name FROM reviews r
@@ -33,16 +39,26 @@ final class HomeController extends Controller
              WHERE r.status = 'approved' ORDER BY r.created_at DESC LIMIT 6"
         );
 
+        // Hero background: the configured hero media when set, else the bundled
+        // interior photograph. A product image is deliberately not stretched
+        // across the banner.
+        $heroImage = !empty($hero['media_url'])
+            ? MediaService::productImageUrl($hero['media_url'], 1600)
+            : asset('img/hero-default.svg');
+
         return $this->view('public/home', [
-            'title'              => Settings::get('home_meta_title', 'Armstrong Homes & Interior Limited — Real Estate, Building Materials & Interior Products'),
-            'metaDescription'    => Settings::get('home_meta_description', 'Armstrong Homes & Interior Limited supplies building materials, interior products and real estate solutions across Nigeria. Browse properties for sale and rent, or order building materials and interior products.'),
+            'title'              => Settings::get('home_meta_title', 'Armstrong Homes & Interior Limited — Building Materials, Interior Products & Real Estate'),
+            'metaDescription'    => Settings::get('home_meta_description', 'Armstrong Homes & Interior Limited supplies building materials, interior products and real estate solutions across Nigeria. Browse and order tiles, sanitary ware, doors, lighting and more, or explore properties for sale and rent.'),
             'canonical'          => url('/'),
             'hero'               => $hero,
+            'heroImage'          => $heroImage,
             'about'              => $about,
             'banner'             => $banner,
             'featuredProperties' => $featuredProperties,
             'featuredProducts'   => $featuredProducts,
+            'latestProducts'     => $latestProducts,
             'categories'         => $categories,
+            'brands'             => $brands,
             'reviews'            => $reviews,
         ]);
     }
