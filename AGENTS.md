@@ -31,7 +31,10 @@ sudo mysql -e "CREATE DATABASE armstrong CHARACTER SET utf8mb4; \
   CREATE USER 'armstrong'@'127.0.0.1' IDENTIFIED BY 'devpass'; \
   GRANT ALL ON armstrong.* TO 'armstrong'@'127.0.0.1'; FLUSH PRIVILEGES;"
 mysql -uarmstrong -pdevpass -h127.0.0.1 armstrong < database/schema.sql
-php scripts/install.php --admin-user=admin --admin-pass='<pw>' --seed-demo
+php scripts/install.php --admin-user=admin --admin-pass='<pw>'
+#   plain install = schema + admin only (no seed data).
+#   add --with-defaults for settings/delivery/content; --seed-demo adds the
+#   sample catalogue (implies --with-defaults) — local testing only.
 php -S 0.0.0.0:12000 scripts/dev-router.php   # dev-router emulates .htaccess
 ```
 
