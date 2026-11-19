@@ -38,6 +38,14 @@ php -S 0.0.0.0:12000 scripts/dev-router.php   # dev-router emulates .htaccess
 Or just `bash scripts/demo-start.sh` to (re)start MariaDB + the dev server
 together; it is idempotent and safe to run repeatedly.
 
+`install.php` prompts on STDIN for any admin value not passed as a flag
+(`--admin-user`, `--admin-name`, `--admin-email`, `--admin-pass`). Pass all
+four to run it unattended; otherwise it blocks waiting for input.
+
+If the sandbox is reset, PHP and MariaDB are removed and must be reinstalled
+before `demo-start.sh` will work — follow the `apt-get` block above, then
+create the DB/user and run the installer.
+
 `config/config.php` may set `'base_url' => 'auto'`; the base URL is then derived
 from the request (works behind a proxy / in a sub-directory). A concrete URL in
 `base_url` always wins.
