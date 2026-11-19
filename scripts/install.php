@@ -6,9 +6,17 @@ declare(strict_types=1);
  *
  * Run from the project root:
  *
- *   php scripts/install.php                 # create schema, seed defaults, prompt for admin
  *   php scripts/install.php --admin-user=admin --admin-pass='...'
- *   php scripts/install.php --seed-demo     # also insert sample categories/products/properties
+ *       Create the schema and the administrator only. The database is left
+ *       otherwise empty: no products, categories, settings or delivery rates.
+ *
+ *   php scripts/install.php --admin-user=admin --admin-pass='...' --with-defaults
+ *       Also insert the operational defaults the site needs to function
+ *       (site settings, delivery options, editable content sections).
+ *       Still no products, properties or categories.
+ *
+ *   php scripts/install.php --admin-user=admin --admin-pass='...' --seed-demo
+ *       Everything above plus the sample catalogue, for local testing only.
  *
  * Safe to run more than once: schema statements use IF NOT EXISTS and seed
  * rows are only inserted when missing.
@@ -33,7 +41,7 @@ if (!is_file($configPath)) {
 }
 Config::load($configPath);
 
-$options = getopt('', ['admin-user::', 'admin-pass::', 'admin-name::', 'admin-email::', 'seed-demo', 'help']);
+$options = getopt('', ['admin-user::', 'admin-pass::', 'admin-name::', 'admin-email::', 'with-defaults', 'seed-demo', 'help']);
 
 if (isset($options['help'])) {
     echo <<<TXT
@@ -43,7 +51,11 @@ if (isset($options['help'])) {
       --admin-pass=PASS    Administrator password (required for first install)
       --admin-name=NAME    Administrator display name
       --admin-email=EMAIL  Administrator email
-      --seed-demo          Insert sample categories, brands, products and properties
+      --with-defaults      Insert operational defaults (site settings, delivery
+                           options, editable content sections). Without this the
+                           database holds only the schema and the administrator.
+      --seed-demo          Insert the sample catalogue for local testing
+                           (implies --with-defaults)
       --help               Show this message
 
     TXT;
@@ -120,7 +132,14 @@ if ($adminCount === 0) {
     out('-> Administrator already exists; skipping.');
 }
 
-// --- 3. Default delivery rates --------------------------------------------
+// --- 3. Operational defaults ----------------------------------------------
+// Skipped unless --with-defaults / --seed-demo is given, so a plain install
+// leaves the database holding only the schema and the administrator account.
+$withDefaults = isset($options['with-defaults']) || isset($options['seed-demo']);
+
+if ($withDefaults):
+
+// --- Default delivery rates ---
 if ((int) Database::scalar('SELECT COUNT(*) FROM delivery_rates') === 0) {
     $rates = [
         ['Same-day delivery', 'Delivered within the same working day', 10000.00, 'Same day', 1],
@@ -136,7 +155,7 @@ if ((int) Database::scalar('SELECT COUNT(*) FROM delivery_rates') === 0) {
     out('-> Default delivery options created.');
 }
 
-// --- 4. Default settings ---------------------------------------------------
+// --- Default settings ---------------------------------------------------
 $settings = [
     ['company_name', 'Armstrong Homes & Interior Limited', 'Company', 'text'],
     ['company_tagline', 'Building materials, interior products and real estate', 'Company', 'text'],
@@ -177,7 +196,7 @@ foreach ($settings as [$key, $value, $group, $type]) {
 }
 out("-> {$inserted} default settings created.");
 
-// --- 5. Content sections ---------------------------------------------------
+// --- Content sections ---------------------------------------------------
 $sections = [
     ['home_hero', 'home', 'Building materials and interior products, supplied with confidence.',
         'Tiles, sanitary ware, doors, lighting, finishes and more — ordered online with store collection or delivery across Nigeria.',
@@ -201,7 +220,9 @@ foreach ($sections as [$key, $page, $title, $subtitle, $body, $ctaLabel, $ctaUrl
 }
 out("-> {$inserted} content sections created.");
 
-// --- 6. Optional demo catalogue -------------------------------------------
+endif; // $withDefaults
+
+// --- Optional demo catalogue -------------------------------------------
 if (isset($options['seed-demo'])) {
     require __DIR__ . '/seed_demo.php';
     seed_demo();
@@ -209,4 +230,9 @@ if (isset($options['seed-demo'])) {
 }
 
 out('');
+if (!$withDefaults) {
+    out('The database is empty apart from the administrator account.');
+    out('Re-run with --with-defaults to add site settings, delivery options and');
+    out('content sections, or add everything from the admin area.');
+}
 out('Installation complete. Sign in at: ' . rtrim((string) Config::get('base_url', ''), '/') . '/' . Config::get('admin_path', 'invent') . '/login');

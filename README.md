@@ -55,10 +55,11 @@ mysql -u root -e "GRANT ALL PRIVILEGES ON armstrong.* TO 'armstrong'@'localhost'
 cp config/config.example.php config/config.php
 #   then edit config/config.php with your database, Cloudinary and mail settings
 
-# 3. Install: create schema, seed defaults, create the administrator
+# 3. Install: create the schema and the administrator (empty database)
 php scripts/install.php --admin-user=admin --admin-pass='a-strong-password'
 
-#    Add sample categories, products and properties with --seed-demo
+#    Add site settings, delivery options and content sections with --with-defaults
+#    Add the sample catalogue with --seed-demo (local testing only)
 
 # 4. Run the development server
 php -S localhost:8080

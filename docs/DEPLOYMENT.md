@@ -83,7 +83,9 @@ cd ~/public_html
 php scripts/install.php --admin-user=admin --admin-pass='a-strong-password'
 ```
 
-Add `--seed-demo` only if you want sample data. Once the installer completes,
+Add `--with-defaults` if you want the installer to also create the site
+settings, delivery options and content sections. Add `--seed-demo` only if you
+want sample data — never on a live site. Once the installer completes,
 sign in at `https://yourdomain.com/invent/login` and change the password.
 
 If Terminal is unavailable, run the installer once via a temporary browser

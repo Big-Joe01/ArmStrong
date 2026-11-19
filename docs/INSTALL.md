@@ -62,17 +62,23 @@ php -r "echo bin2hex(random_bytes(32)), PHP_EOL;"
 
 ## 4. Run the installer
 
-The installer creates the schema, seeds default settings and delivery options,
-creates the single administrator account, and (optionally) loads demo data.
+The installer creates the schema and the single administrator account. By
+default nothing else is inserted, so the database stays clean and you build the
+catalogue and settings from the admin area.
 
 ```bash
-# Interactive — prompts for the administrator username and password
+# Interactive — prompts for the administrator username and password.
+# Creates the schema and the administrator only; the database is otherwise empty.
 php scripts/install.php
 
 # Non-interactive
 php scripts/install.php --admin-user=admin --admin-pass='a-strong-password'
 
-# Also load sample categories, products and properties
+# Also add the operational defaults (site settings, delivery options,
+# content sections) — still no products, properties or categories
+php scripts/install.php --admin-user=admin --admin-pass='a-strong-password' --with-defaults
+
+# Local testing only: everything above plus the sample catalogue
 php scripts/install.php --admin-user=admin --admin-pass='a-strong-password' --seed-demo
 ```
 
@@ -83,9 +89,18 @@ and recreate the database first.
 
 - All tables from `database/schema.sql`
 - One administrator (password hashed with `password_hash()`)
+
+With `--with-defaults` (or `--seed-demo`, which implies it) it also adds:
+
 - Default delivery options (same-day ₦10,000, two-day ₦8,000, four-day ₦5,000)
-- Default site settings and homepage content sections
-- With `--seed-demo`: example product/property categories, products and properties
+- Default site settings and editable content sections
+
+With `--seed-demo` it additionally adds example product/property categories,
+products and properties. Never use `--seed-demo` on a live site.
+
+The site renders correctly with an empty database: sections with no data are
+hidden and the public pages fall back to sensible default text, so you can add
+products, properties and settings entirely from the admin area.
 
 ---
 
