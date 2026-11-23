@@ -51,7 +51,8 @@ final class Str
         for ($i = 0; $i < $length; $i++) {
             $out .= $alphabet[random_int(0, strlen($alphabet) - 1)];
         }
-        return $prefix . '-' . $out;
+        $prefix = rtrim(trim($prefix), '-');
+        return $prefix === '' ? $out : $prefix . '-' . $out;
     }
 
     /** Money display using the configured currency symbol. */

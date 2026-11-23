@@ -56,6 +56,27 @@ function seed_demo(): void
         }
     }
 
+    // --- Partners (fixed supplier list; not editable from the admin) -------
+    $partners = [
+        ['Knauf Ceiling Solutions', 'knauf-ceiling-solutions.png', 'Ceiling systems and acoustic panels.', 1],
+        ['Dangote Cement', 'dangote-cement.png', 'Cement and building supplies.', 2],
+        ['Libra', 'libra.png', 'Interior and building products.', 3],
+        ['MTN Nigeria', 'mtn.png', 'Connectivity for our stores and delivery team.', 4],
+    ];
+    foreach ($partners as [$name, $logo, $description, $order]) {
+        $slug = Str::slug($name);
+        if (Database::first('SELECT id FROM partners WHERE slug = ?', [$slug]) === null) {
+            Database::insert('partners', [
+                'name'          => $name,
+                'slug'          => $slug,
+                'description'   => $description,
+                'logo_url'      => 'assets/img/partners/' . $logo,
+                'display_order' => $order,
+                'is_active'     => 1,
+            ]);
+        }
+    }
+
     // --- Brands ------------------------------------------------------------
     $brands = ['Generic', 'Local Made', 'Imported'];
     $brandIds = [];

@@ -534,6 +534,61 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
     .brand-logo { height: 40px; width: 40px; }
 }
 
+/* --- Partners strip -------------------------------------------------------
+   Deliberately restrained: monochrome logos on a quiet band, full colour on
+   hover. Reads as a credibility signal rather than a logo wall. */
+.partners-section { background: var(--c-white); border-block: 1px solid var(--c-border); }
+.partners-head { max-width: 46rem; margin-bottom: var(--sp-6); }
+.partners-head h2 { font-size: var(--fs-xl); margin-bottom: var(--sp-2); }
+.partners-head p { color: var(--c-text-muted); font-size: var(--fs-sm); margin: 0; }
+.partners-strip {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--sp-5); align-items: center;
+}
+.partner-item {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 84px; padding: var(--sp-4);
+    border: 1px solid var(--c-border); border-radius: var(--radius);
+    background: var(--c-white);
+}
+.partner-item img {
+    max-width: 100%; max-height: 52px; width: auto; height: auto;
+    object-fit: contain;
+    filter: grayscale(1); opacity: 0.62;
+    transition: filter 180ms ease, opacity 180ms ease;
+}
+.partner-item:hover img { filter: grayscale(0); opacity: 1; }
+.partner-name {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: var(--fs-md); color: var(--c-text-faint);
+    letter-spacing: 0.02em; text-align: center;
+}
+
+/* --- Division tiles (homepage company band) ------------------------------ */
+.division-pair { display: grid; gap: var(--sp-4); }
+.division-tile {
+    display: flex; align-items: center; gap: var(--sp-4);
+    padding: var(--sp-5);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius);
+    background: rgba(255,255,255,0.05);
+    color: #fff; text-decoration: none;
+    transition: background 160ms ease, border-color 160ms ease;
+}
+.division-tile:hover { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.22); }
+.division-tile img { flex-shrink: 0; opacity: 0.9; }
+.division-tile h4 { color: #fff; margin: 0 0 var(--sp-1); font-size: var(--fs-md); }
+.division-tile p { color: #A9B6C6; margin: 0; font-size: var(--fs-sm); }
+
+@media (max-width: 560px) {
+    .partners-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-3); }
+    .partner-item { min-height: 72px; padding: var(--sp-3); }
+    .partner-item img { max-height: 40px; }
+    .division-tile { padding: var(--sp-4); gap: var(--sp-3); }
+    .division-tile img { width: 40px; height: 40px; }
+}
+
 @media print {
     .site-header, .site-footer, .no-print { display: none !important; }
     body { background: #fff; }

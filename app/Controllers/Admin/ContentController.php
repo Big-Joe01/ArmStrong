@@ -36,7 +36,6 @@ final class ContentController extends Controller
         'Contact' => ['contact_phone', 'contact_phone_alt', 'contact_email', 'contact_address', 'business_hours'],
         'Footer'  => ['footer_about', 'footer_note'],
         'Social'  => ['social_facebook', 'social_instagram', 'social_x', 'social_linkedin', 'social_whatsapp'],
-        'SEO'     => ['home_meta_title', 'home_meta_description'],
     ];
 
     public function index(Request $request): Response

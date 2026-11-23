@@ -40,6 +40,11 @@ final class Database
             throw new \RuntimeException('Database connection failed.', 0, $e);
         }
 
+        // Keep SQL NOW() and PHP date() on the same clock, otherwise reservation
+        // expiry comparisons drift by the server's UTC offset.
+        $offset = (new \DateTimeImmutable('now'))->format('P');
+        self::$pdo->exec('SET time_zone = ' . self::$pdo->quote($offset));
+
         return self::$pdo;
     }
 

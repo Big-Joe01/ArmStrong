@@ -354,8 +354,6 @@ final class ProductController extends Controller
             'specs'               => $specs ? json_encode($specs) : null,
             'colors'              => $this->jsonList($request->string('colors')),
             'sizes'               => $this->jsonList($request->string('sizes')),
-            'meta_title'          => $this->nullable($request->string('meta_title'), 255),
-            'meta_description'    => $this->nullable($request->string('meta_description'), 320),
         ];
     }
 

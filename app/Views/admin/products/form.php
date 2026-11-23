@@ -97,7 +97,7 @@ $val = static function (string $key, string $default = '') use ($product): strin
             </fieldset>
 
             <fieldset class="fieldset">
-                <legend>Options &amp; search engine metadata</legend>
+                <legend>Options</legend>
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label" for="colors">Available colours</label>
@@ -109,14 +109,6 @@ $val = static function (string $key, string $default = '') use ($product): strin
                         <input class="form-control" type="text" id="sizes" name="sizes" value="<?= e(implode(', ', $sizes)) ?>" placeholder="60x60cm, 30x30cm">
                         <div class="form-hint">Comma-separated.</div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="meta_title">SEO title</label>
-                    <input class="form-control" type="text" id="meta_title" name="meta_title" maxlength="255" value="<?= e($val('meta_title')) ?>">
-                </div>
-                <div class="form-group mb-0">
-                    <label class="form-label" for="meta_description">SEO description</label>
-                    <textarea class="form-control" id="meta_description" name="meta_description" maxlength="320" rows="2"><?= e($val('meta_description')) ?></textarea>
                 </div>
             </fieldset>
         </div>

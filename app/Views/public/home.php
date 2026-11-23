@@ -11,6 +11,7 @@
  * @var list<array> $latestProducts
  * @var list<array> $categories
  * @var list<array> $brands
+ * @var list<array> $partners
  * @var list<array> $reviews
  */
 use App\Core\Settings;
@@ -103,12 +104,12 @@ $shopProducts = array_slice($shopProducts, 0, 8);
 </section>
 <?php endif; ?>
 
-<!-- Why buy from Armstrong -->
+<!-- How ordering works -->
 <section class="section">
     <div class="container">
         <div class="section-head center">
-            <span class="eyebrow">Why shop with Armstrong</span>
-            <h2>Ordering made straightforward</h2>
+            <span class="eyebrow">How ordering works</span>
+            <h2>Straightforward from start to finish</h2>
         </div>
         <div class="grid grid-4">
             <div class="value-card">
@@ -156,6 +157,31 @@ $shopProducts = array_slice($shopProducts, 0, 8);
 </section>
 <?php endif; ?>
 
+<!-- Partners / suppliers (only shown when real partners are recorded) -->
+<?php if (!empty($partners)): ?>
+<section class="section partners-section">
+    <div class="container">
+        <div class="partners-head">
+            <span class="eyebrow">Our partners</span>
+            <h2>Brands we supply</h2>
+            <p>We source from established manufacturers, so the specification you order is the specification you receive.</p>
+        </div>
+        <ul class="partners-strip" role="list">
+            <?php foreach ($partners as $partner): ?>
+                <li class="partner-item">
+                    <?php if (!empty($partner['logo_url'])): ?>
+                        <img src="<?= e(MediaService::productImageUrl($partner['logo_url'], 320)) ?>"
+                             alt="<?= e($partner['name']) ?>" loading="lazy" width="160" height="64">
+                    <?php else: ?>
+                        <span class="partner-name"><?= e($partner['name']) ?></span>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</section>
+<?php endif; ?>
+
 <!-- Company introduction -->
 <section class="section section-ink">
     <div class="container">
@@ -168,19 +194,21 @@ $shopProducts = array_slice($shopProducts, 0, 8);
                 </p>
                 <a class="btn btn-primary" href="<?= e(url('/about')) ?>">Learn more about us</a>
             </div>
-            <div class="grid" style="gap:var(--sp-4)">
-                <div class="value-card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.12)">
-                    <h4 style="color:#fff">Reliable stock</h4>
-                    <p style="color:#A9B6C6">Inventory is tracked per product, so availability shown online reflects what we hold.</p>
-                </div>
-                <div class="value-card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.12)">
-                    <h4 style="color:#fff">Clear process</h4>
-                    <p style="color:#A9B6C6">Orders are reserved for seven days so you have time to confirm payment and arrange collection or delivery.</p>
-                </div>
-                <div class="value-card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.12)">
-                    <h4 style="color:#fff">Two divisions</h4>
-                    <p style="color:#A9B6C6">Property and materials under one roof — useful when a project spans both.</p>
-                </div>
+            <div class="division-pair">
+                <a class="division-tile" href="<?= e(url('/building-materials')) ?>">
+                    <img src="<?= e(asset('img/division-building-materials.svg')) ?>" alt="" width="56" height="56" loading="lazy">
+                    <div>
+                        <h4>Building Materials &amp; Interior</h4>
+                        <p>Tiles, sanitary ware, doors, lighting and finishes, held in stock.</p>
+                    </div>
+                </a>
+                <a class="division-tile" href="<?= e(url('/real-estate')) ?>">
+                    <img src="<?= e(asset('img/division-real-estate.svg')) ?>" alt="" width="56" height="56" loading="lazy">
+                    <div>
+                        <h4>Real Estate</h4>
+                        <p>Homes, land and commercial space available to buy, rent or lease.</p>
+                    </div>
+                </a>
             </div>
         </div>
     </div>

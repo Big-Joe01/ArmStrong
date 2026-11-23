@@ -38,6 +38,9 @@ final class HomeController extends Controller
              LEFT JOIN products p ON p.id = r.product_id
              WHERE r.status = 'approved' ORDER BY r.created_at DESC LIMIT 6"
         );
+        $partners = Database::all(
+            "SELECT * FROM partners WHERE is_active = 1 ORDER BY display_order ASC, name ASC LIMIT 12"
+        );
 
         // Hero background: the configured hero media when set, else the bundled
         // interior photograph. A product image is deliberately not stretched
@@ -59,6 +62,7 @@ final class HomeController extends Controller
             'latestProducts'     => $latestProducts,
             'categories'         => $categories,
             'brands'             => $brands,
+            'partners'           => $partners,
             'reviews'            => $reviews,
         ]);
     }

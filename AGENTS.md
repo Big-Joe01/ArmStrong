@@ -62,3 +62,20 @@ from the request (works behind a proxy / in a sub-directory). A concrete URL in
 Note: order/enquiry/contact/review field names are `full_name`, `phone`,
 `email`, `message`, `customer_name`, `body`, `rating`, `product_id` — check the
 controllers rather than guessing.
+
+## Timezones
+
+`Database::connection()` pins the MySQL session `time_zone` to PHP's current
+offset. PHP writes `expires_at`/`created_at` with `date()` while the expiry cron
+compares against SQL `NOW()`; without the pin the two clocks differ by the
+server's UTC offset and 7-day reservations expire an hour early or late. Keep
+the pin if you refactor the connection.
+
+## Known exposure to fix
+
+`config/config.php` was committed on `main` in `81514d1` and is still readable
+from public history at
+`raw.githubusercontent.com/Big-Joe01/ArmStrong/81514d1/config/config.php`
+(HTTP 200). It contains a Cloudinary API secret and the DB password. Deleting
+the file in `8b82777` did not remove it from history. Rotate those credentials
+and purge the blob (e.g. `git filter-repo`) before the repo is shared further.

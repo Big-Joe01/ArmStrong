@@ -146,12 +146,6 @@ $val = static function (string $key, string $default = '') use ($property): stri
                 <label class="form-check"><input type="checkbox" name="is_featured" value="1" <?= $val('is_featured') ? 'checked' : '' ?>> <span>Featured (can appear on the homepage)</span></label>
             </fieldset>
 
-            <fieldset class="fieldset">
-                <legend>Search engine metadata</legend>
-                <div class="form-group"><label class="form-label" for="meta_title">SEO title</label><input class="form-control" type="text" id="meta_title" name="meta_title" maxlength="255" value="<?= e($val('meta_title')) ?>"></div>
-                <div class="form-group mb-0"><label class="form-label" for="meta_description">SEO description</label><textarea class="form-control" id="meta_description" name="meta_description" maxlength="320" rows="2"><?= e($val('meta_description')) ?></textarea></div>
-            </fieldset>
-
             <div class="panel">
                 <div class="panel-body">
                     <button class="btn btn-primary btn-block btn-lg" type="submit"><?= $isEdit ? 'Save changes' : 'Create property' ?></button>

@@ -14,7 +14,7 @@ use App\Core\Session;
 use App\Core\Settings;
 
 /**
- * General site settings (store identity, SEO, feature switches).
+ * General site settings (store identity, commerce switches).
  * Credentials (database, Cloudinary, SMTP) live in config/config.php and
  * are never editable from the browser.
  */
@@ -28,9 +28,6 @@ final class SettingController extends Controller
         'commerce' => [
             'reservation_days', 'allow_partial_payment', 'low_stock_threshold',
             'enable_reviews', 'enable_delivery',
-        ],
-        'seo' => [
-            'meta_title_suffix', 'meta_description_default', 'google_analytics_id',
         ],
     ];
 
