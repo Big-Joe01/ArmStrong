@@ -47,7 +47,7 @@
         <div class="panel-head"><h2><?= e($groupName) ?></h2></div>
         <div class="panel-body">
             <?php foreach ($keys as $key): ?>
-                <?php $isLong = in_array($key, ['about_intro', 'footer_about', 'footer_note', 'home_meta_description'], true); ?>
+                <?php $isLong = in_array($key, ['about_intro', 'footer_about', 'footer_note'], true); ?>
                 <form method="post" action="<?= e(url('invent/content/' . $key)) ?>" class="content-field">
                     <?= csrf_field() ?>
                     <div class="form-group" style="flex:1;margin-bottom:0">

@@ -54,8 +54,6 @@ final class CategoryController extends Controller
             'description'      => $this->nullable($request->string('description')),
             'sort_order'       => $request->int('sort_order', 0),
             'is_active'        => $request->input('is_active') ? 1 : 0,
-            'meta_title'       => $this->nullable($request->string('meta_title'), 255),
-            'meta_description' => $this->nullable($request->string('meta_description'), 320),
         ]);
 
         ActivityLog::record('create', 'product_category', $id, 'Created category: ' . $request->string('name'));
@@ -88,8 +86,6 @@ final class CategoryController extends Controller
             'description'      => $this->nullable($request->string('description')),
             'sort_order'       => $request->int('sort_order', 0),
             'is_active'        => $request->input('is_active') ? 1 : 0,
-            'meta_title'       => $this->nullable($request->string('meta_title'), 255),
-            'meta_description' => $this->nullable($request->string('meta_description'), 320),
         ], ['id' => $categoryId]);
 
         ActivityLog::record('update', 'product_category', $categoryId, 'Updated category.');

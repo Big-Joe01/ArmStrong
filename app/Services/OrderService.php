@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Core\ActivityLog;
 use App\Core\Config;
 use App\Core\Database;
 use App\Core\Logger;
@@ -271,6 +272,12 @@ final class OrderService
             if ($released > 0) {
                 $orders++;
                 $releasedTotal += $released;
+                ActivityLog::record(
+                    'expire_reservation',
+                    'order',
+                    $orderId,
+                    'Reservation expired automatically; ' . $released . ' unit(s) released back to stock.'
+                );
                 self::notifyOrderExpired($orderId);
             }
         }

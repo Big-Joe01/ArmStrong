@@ -1,5 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Armstrong">
-  <circle cx="60" cy="60" r="54" fill="none" stroke="#1E1B1C" stroke-width="7"/>
-  <path d="M60 26 88 94 H74 L68 78 H52 L46 94 H32 Z M57 42 50 66 h14 z"
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Armstrong NG">
+  <circle cx="60" cy="50" r="36" fill="none" stroke="#1E1B1C" stroke-width="6"/>
+  <path d="M60 26 75 68 H66.8 L63.5 58 H56.5 L53.2 68 H45 Z M58 37.5 54.4 49.5 h7.2 z"
         fill="#1E1B1C" fill-rule="evenodd"/>
+  <text x="60" y="104" text-anchor="middle"
+        font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="25" font-weight="700" letter-spacing="1.2" fill="#1E1B1C">ng</text>
 </svg>

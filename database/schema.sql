@@ -621,4 +621,25 @@ CREATE TABLE IF NOT EXISTS login_attempts (
     KEY idx_login_user (username, created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- -----------------------------------------------------------------------------
+-- 27. partners  (organisations Armstrong works with: manufacturers, distributors)
+--     Separate from `brands` (which classify products). Logos live in Cloudinary.
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS partners (
+    id             INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name           VARCHAR(150) NOT NULL,
+    slug           VARCHAR(170) NOT NULL,
+    description    TEXT         NULL,
+    logo_url       VARCHAR(500) NULL,
+    logo_public_id VARCHAR(255) NULL,
+    website_url    VARCHAR(500) NULL,
+    display_order  INT          NOT NULL DEFAULT 0,
+    is_active      TINYINT(1)   NOT NULL DEFAULT 1,
+    created_at     DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at     DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_partner_slug (slug),
+    KEY idx_partner_active (is_active, display_order)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 SET FOREIGN_KEY_CHECKS = 1;

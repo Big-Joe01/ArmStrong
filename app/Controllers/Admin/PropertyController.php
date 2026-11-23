@@ -317,8 +317,6 @@ final class PropertyController extends Controller
             'status'            => $request->string('status', 'draft'),
             'is_published'      => $request->input('is_published') ? 1 : 0,
             'is_featured'       => $request->input('is_featured') ? 1 : 0,
-            'meta_title'        => $this->nullable($request->string('meta_title'), 255),
-            'meta_description'  => $this->nullable($request->string('meta_description'), 320),
         ];
     }
 
